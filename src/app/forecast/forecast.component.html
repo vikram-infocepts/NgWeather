@@ -1,0 +1,47 @@
+<div class="mt-3">
+  <div *ngIf="error && !forecast">
+    <div class="alert alert-danger">
+      <div *ngIf="error.status === 404">
+        Can not find City!
+      </div>
+      <div *ngIf="error.status !== 404">
+          Servers have gone Cold! Problem fetching forecast data. Please try again later!
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron" *ngIf="!error && forecast">
+    <h2>Forecast in {{forecast.city.name}}, {{forecast.city.country}}</h2>
+    <p></p>
+    <div class="row">
+      <div *ngFor="let item of data">
+        <div class="col">
+          <mat-card class="text-center m-2">
+            <mat-card-header>
+              <div mat-card-avatar class="mr-2">
+                  <img src="https://openweathermap.org/img/w/{{item.weather[0].icon}}.png" />
+              </div>
+              <mat-card-title><h6>{{ item.dt * 1000 | date }}</h6></mat-card-title>
+              <mat-card-subtitle>{{item.weather[0].description}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row">
+                <div class="col">
+                  <h5>{{item.main.temp}} °C</h5>
+                  <!-- <div><mat-icon>wb_sunny</mat-icon> {{item.sys.sunrise * 1000 | date: 'shortTime' }}</div>
+                  <div><mat-icon>brightness_3</mat-icon> {{item.sys.sunset * 1000 | date: 'shortTime' }}</div> -->
+                </div>
+                <mat-divider [vertical]="true"></mat-divider>
+                <div class="col ml-1">
+                  <p>Wind {{item.wind.speed}}</p>
+                  <p>Humidity {{item.main.humidity}}</p>
+                  <p>Pressure {{item.main.pressure}}</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button mat-raised-button color="warn" class="mr-1" routerLink="">Back</button>
+</div>

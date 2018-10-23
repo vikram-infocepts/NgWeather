@@ -1,0 +1,50 @@
+<div class="mt-3">
+  <div *ngIf="error && !current">
+    <div class="alert alert-danger">
+        <div *ngIf="error.status === 404">
+          Can not find City!
+        </div>
+        <div *ngIf="error.status !== 404">
+          Servers have gone Cold! Problem fetching weather data. Please try again later!
+        </div>
+    </div>
+  </div>
+  <div class="jumbotron" *ngIf="!error && current">
+    <h2 *ngIf="current">Weather in {{current.name}}, {{current.sys.country}}</h2>
+    <p></p>
+    <div class="row">
+      <div class="col-4">
+        <mat-card class="text-center">
+          <mat-card-header>
+            <div mat-card-avatar class="mr-2">
+                <img src="https://openweathermap.org/img/w/{{current.weather[0].icon}}.png" />
+            </div>
+            <mat-card-title><h6>{{current.dt * 1000 | date }}</h6></mat-card-title>
+            <mat-card-subtitle>{{current.weather[0].description}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="row">
+              <div class="col">
+                <h5>{{current.main.temp}} °C</h5>
+                <div><mat-icon>wb_sunny</mat-icon> {{current.sys.sunrise * 1000 | date: 'shortTime' }}</div>
+                <div><mat-icon>brightness_3</mat-icon> {{current.sys.sunset * 1000 | date: 'shortTime' }}</div>
+              </div>
+              <mat-divider [vertical]="true"></mat-divider>
+              <div class="col ml-1">
+                <p>Wind {{current.wind.speed}}</p>
+                <p>Humidity {{current.main.humidity}}</p>
+                <p>Pressure {{current.main.pressure}}</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-4">
+        <button *ngIf="current" mat-raised-button color="primary" class="mr-1" routerLink="/{{current.name}}/forecast">5 Days Forecast</button>
+      </div>
+    </div>
+  </div>
+  <button mat-raised-button color="warn" class="mr-1" routerLink="">Back</button>
+</div>

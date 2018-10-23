@@ -1,0 +1,11 @@
+<div class="jumbotron mt-3">
+  <h2><mat-icon >brightness_4</mat-icon> Ng Wether App</h2>
+  <p class="lead">Know weather for your city!</p>
+  <mat-form-field class="w-25 mr-2">
+    <input matInput placeholder="City name" required #cityName="ngModel" [(ngModel)]="city">
+    <mat-error *ngIf="cityName.invalid">Please provide city name</mat-error>
+  </mat-form-field>
+  <button [disabled]="cityName.invalid" mat-raised-button color="primary" class="mr-1" routerLink="/{{cityName.value}}/weather">Weather</button>
+  <button [disabled]="cityName.invalid" mat-raised-button color="primary" class="mr-1" routerLink="/{{cityName.value}}/forecast">5 Days Forecast</button>
+  <p></p>
+</div>
