@@ -1,3 +1,7 @@
+/*
+Weather component taking city name as query string and calling core service to get data.
+*/
+
 import { environment } from './../../environments/environment';
 import { WeatherService } from './../core/weather.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,7 +17,6 @@ import { ActivatedRoute } from '@angular/router';
 export class WeatherComponent implements OnInit, OnDestroy {
   current: Current;
   error: HttpErrorResponse;
-  city: string;
   timer: any;
   baseImgSrc: string;
 
@@ -21,8 +24,9 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.baseImgSrc = environment.baseImgSrc;
-
     this.getWeather();
+
+    // start timer to refresh data every 60 secs
     this.timer = setInterval(() => {
       this.getWeather();
     }, 60 * 1000);
@@ -30,16 +34,17 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   getWeather() {
     this.current = this.error = null;
-    this.city = this.route.snapshot.paramMap.get('city');
+    const city = this.route.snapshot.paramMap.get('city');
 
-    if (this.city !== '') {
-      this.service.getWether(this.city).subscribe(
-        (data: Current) => this.current = data,
+    if (city !== '') {
+      this.service.getWether(city).subscribe(
+        (data: any) => this.current = data.data,
         (data: HttpErrorResponse) => {this.current = null; this.error = data; });
     }
   }
 
   ngOnDestroy() {
+    // stop timer to refresh data every 60 secs
     if (this.timer) {
       clearInterval(this.timer);
     }

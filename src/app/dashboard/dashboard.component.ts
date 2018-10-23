@@ -1,3 +1,6 @@
+/*
+dashboard taking city name as input and passing it down to Weather or Forecast component.
+*/
 import { Component, OnInit } from '@angular/core';
 
 @Component({

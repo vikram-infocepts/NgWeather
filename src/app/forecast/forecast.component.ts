@@ -1,3 +1,7 @@
+/*
+Forecast component taking city name as query string and calling core service to get data.
+*/
+
 import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { WeatherService } from './../core/weather.service';
@@ -13,6 +17,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 })
 export class ForecastComponent implements OnInit, OnDestroy {
   forecast: Forecast;
+  // holds api filtered data. As api is returning 5 days per 3 hours data. we are tking only 5 days first element.
   data: Array<List> = [];
   private prevDate: string = new Date().toDateString();
   error: HttpErrorResponse;
@@ -24,6 +29,8 @@ export class ForecastComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.baseImgSrc = environment.baseImgSrc;
     this.getForecast();
+
+    // start timer to refresh data every 60 secs
     this.timer = setInterval(() => {
       this.getForecast();
     }, 60 * 1000);
@@ -36,9 +43,10 @@ export class ForecastComponent implements OnInit, OnDestroy {
 
     if (city !== '') {
       this.service.getForecast(city).subscribe(
-        (data: Forecast) => {
-          this.forecast = data;
+        (data: any) => {
+          this.forecast = data.data;
           this.forecast.list.forEach(val => {
+            // filter data to get first per day
             if (this.prevDate !== new Date(val.dt * 1000).toDateString()) {
               this.prevDate = new Date(val.dt * 1000).toDateString();
               this.data.push(this.forecast.list.find(val1 => {
@@ -54,6 +62,7 @@ export class ForecastComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // stop timer to refresh data every 60 secs
     if (this.timer) {
       clearInterval(this.timer);
     }

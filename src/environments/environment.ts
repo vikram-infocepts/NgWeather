@@ -4,9 +4,7 @@
 
 export const environment = {
   production: false,
-  units: 'metric',
-  apikey: '25369a198ace88d96107b4a9f5c09048',
-  baseUrl: 'http://api.openweathermap.org/data/2.5/',
+  baseUrl: 'http://localhost:3000/',
   baseImgSrc: 'https://openweathermap.org/img/w/'
 };
 
