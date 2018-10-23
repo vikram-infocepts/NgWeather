@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { WeatherService } from './../core/weather.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,10 +17,12 @@ export class ForecastComponent implements OnInit, OnDestroy {
   private prevDate: string = new Date().toDateString();
   error: HttpErrorResponse;
   timer: any;
+  baseImgSrc: string;
 
   constructor(private route: ActivatedRoute, private service: WeatherService) { }
 
   ngOnInit() {
+    this.baseImgSrc = environment.baseImgSrc;
     this.getForecast();
     this.timer = setInterval(() => {
       this.getForecast();

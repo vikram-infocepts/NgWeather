@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { WeatherService } from './../core/weather.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Current } from './../shared/models/current/current.model';
@@ -14,11 +15,12 @@ export class WeatherComponent implements OnInit, OnDestroy {
   error: HttpErrorResponse;
   city: string;
   timer: any;
+  baseImgSrc: string;
 
   constructor(private route: ActivatedRoute, private service: WeatherService) { }
 
   ngOnInit() {
-    this.city = this.route.snapshot.paramMap.get('city');
+    this.baseImgSrc = environment.baseImgSrc;
 
     this.getWeather();
     this.timer = setInterval(() => {
@@ -28,6 +30,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   getWeather() {
     this.current = this.error = null;
+    this.city = this.route.snapshot.paramMap.get('city');
 
     if (this.city !== '') {
       this.service.getWether(this.city).subscribe(

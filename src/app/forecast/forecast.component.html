@@ -18,7 +18,7 @@
           <mat-card class="text-center m-2">
             <mat-card-header>
               <div mat-card-avatar class="mr-2">
-                  <img src="https://openweathermap.org/img/w/{{item.weather[0].icon}}.png" />
+                  <img src="{{baseImgSrc}}{{item.weather[0].icon}}.png" />
               </div>
               <mat-card-title><h6>{{ item.dt * 1000 | date }}</h6></mat-card-title>
               <mat-card-subtitle>{{item.weather[0].description}}</mat-card-subtitle>
